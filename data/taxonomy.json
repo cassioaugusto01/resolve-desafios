@@ -1,0 +1,19 @@
+{
+  "categories": {
+    "Arrays": ["Dois ponteiros", "Janela deslizante", "Prefix sums", "Busca binária em resposta"],
+    "Strings": ["Hashing", "Anagramas", "KMP", "Rabin-Karp", "Trie"],
+    "Listas Ligadas": ["Dois ponteiros (lento/rápido)", "Inversão", "Detecção de ciclo"],
+    "Pilhas e Filas": ["Monotonic stack", "Deque / BFS"],
+    "Árvores": ["DFS/Pre/In/Post", "BFS", "BST", "LCA", "Segment Tree/Fenwick"],
+    "Grafos": ["DFS/BFS", "Topological sort", "Dijkstra", "Bellman-Ford", "Floyd-Warshall", "MST (Kruskal/Prim)", "Union-Find"],
+    "Programação Dinâmica": ["Knapsack", "LIS", "LCS", "Coin Change", "Edit Distance"],
+    "Guloso": ["Interval scheduling", "Huffman"],
+    "Ordenação e Busca": ["Quicksort/Mergesort", "Counting/Radix", "Busca Binária"],
+    "Bitmask": ["Bit DP", "Manipulação de bits"],
+    "Matemática/Teoria dos Números": ["Crivo de Eratóstenes", "MDC/Mínimo Comum Múltiplo", "Exponenciação rápida", "Combinatória"],
+    "Geometria Computacional": ["Produto vetorial", "Convex Hull", "Varredura linear"],
+    "Backtracking": ["Permutações/Combinações", "N-Queens", "Subconjuntos"]
+  }
+}
+
+
