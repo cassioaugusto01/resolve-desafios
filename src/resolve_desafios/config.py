@@ -26,6 +26,8 @@ def _coalesce_env_str(name: str, default: Optional[str] = None) -> Optional[str]
 
 def get_settings() -> Settings:
     global _CACHED_SETTINGS
+    # Sempre recarregar para desenvolvimento
+    _CACHED_SETTINGS = None
     if _CACHED_SETTINGS is not None:
         return _CACHED_SETTINGS
 

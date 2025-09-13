@@ -1,0 +1,56 @@
+# Configuração do systemd para Resolve Desafios
+# Este arquivo será copiado para /etc/systemd/system/resolve-desafios.service
+
+[Unit]
+Description=Resolve Desafios Django Application
+After=network.target
+Wants=network.target
+
+[Service]
+Type=notify
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu
+Environment=DJANGO_SETTINGS_MODULE=resolve_desafios_web.settings_production
+Environment=SECRET_KEY=your-secret-key-here
+Environment=OPENAI_API_KEY=your-openai-api-key-here
+Environment=PYTHONPATH=/home/ubuntu
+Environment=PYTHONUNBUFFERED=1
+
+# Comando para iniciar a aplicação
+ExecStart=/home/ubuntu/venv/bin/gunicorn \
+    --workers 3 \
+    --worker-class sync \
+    --worker-connections 1000 \
+    --max-requests 1000 \
+    --max-requests-jitter 100 \
+    --timeout 30 \
+    --keep-alive 2 \
+    --bind 0.0.0.0:8000 \
+    --access-logfile - \
+    --error-logfile - \
+    --log-level info \
+    resolve_desafios_web.wsgi:application
+
+# Comando para recarregar a aplicação
+ExecReload=/bin/kill -s HUP $MAINPID
+
+# Configurações de reinicialização
+Restart=always
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Configurações de segurança
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/ubuntu
+
+# Configurações de recursos
+LimitNOFILE=65536
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target
