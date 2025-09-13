@@ -31,9 +31,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Use WhiteNoise for serving static files
-MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-] + MIDDLEWARE
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
