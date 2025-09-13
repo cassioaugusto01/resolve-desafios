@@ -1,0 +1,88 @@
+{% extends 'desafios/base.html' %}
+
+{% block title %}Análise: {{ analysis.title }} - Resolve Desafios{% endblock %}
+
+{% block content %}
+<div class="analysis-detail">
+    <div class="analysis-header">
+        <h1><i class="fas fa-chart-line"></i> {{ analysis.title }}</h1>
+        <div class="analysis-meta">
+            <span class="difficulty-badge difficulty-{{ analysis.difficulty|lower }}">{{ analysis.difficulty }}</span>
+            <div class="categories">
+                {% for category in analysis.categories %}
+                    <span class="category-tag">{{ category }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="result-card">
+        <h3><i class="fas fa-file-text"></i> Resumo</h3>
+        <p>{{ analysis.summary }}</p>
+    </div>
+
+    <div class="result-card">
+        <h3><i class="fas fa-lightbulb"></i> Abordagem Recomendada</h3>
+        <p><strong>{{ analysis.recommended_approach }}</strong></p>
+    </div>
+
+    <div class="result-card">
+        <h3><i class="fas fa-cogs"></i> Abordagens Disponíveis</h3>
+        <div class="approaches">
+            {% for approach in analysis.approaches %}
+                <div class="approach-item">
+                    <h4>{{ approach.name }}</h4>
+                    <p>{{ approach.description }}</p>
+                    <div class="complexity">
+                        <div class="complexity-item">
+                            <h6>Tempo</h6>
+                            <span>{{ approach.time_complexity }}</span>
+                        </div>
+                        <div class="complexity-item">
+                            <h6>Espaço</h6>
+                            <span>{{ approach.space_complexity }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="result-card">
+        <h3><i class="fas fa-chart-line"></i> Complexidade Global</h3>
+        <div class="complexity">
+            <div class="complexity-item">
+                <h6>Tempo</h6>
+                <span>{{ analysis.complexity_time }}</span>
+            </div>
+            <div class="complexity-item">
+                <h6>Espaço</h6>
+                <span>{{ analysis.complexity_space }}</span>
+            </div>
+        </div>
+    </div>
+
+    {% if analysis.assumptions %}
+        <div class="result-card">
+            <h3><i class="fas fa-exclamation-triangle"></i> Suposições</h3>
+            <p>{{ analysis.assumptions }}</p>
+        </div>
+    {% endif %}
+
+    {% if analysis.references %}
+        <div class="result-card">
+            <h3><i class="fas fa-book"></i> Referências</h3>
+            <p>{{ analysis.references }}</p>
+        </div>
+    {% endif %}
+
+    <div class="analysis-actions">
+        <a href="{% url 'index' %}" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+        <button class="btn btn-secondary" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimir
+        </button>
+    </div>
+</div>
+{% endblock %}

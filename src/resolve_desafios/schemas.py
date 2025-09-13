@@ -1,35 +1,30 @@
-from enum import Enum
-from typing import List, Optional
+"""
+Schemas para análise de desafios
+"""
 
 from pydantic import BaseModel, Field
-
-
-class Difficulty(str, Enum):
-    facil = "Fácil"
-    medio = "Médio"
-    dificil = "Difícil"
+from typing import List, Literal
 
 
 class Approach(BaseModel):
-    name: str = Field(..., description="Nome da abordagem/estratégia")
-    algorithms: List[str] = Field(default_factory=list, description="Algoritmos/técnicas principais envolvidos")
-    description: str = Field(..., description="Resumo da ideia e quando usar")
-    steps: List[str] = Field(default_factory=list, description="Passos de alto nível para implementar")
-    time_complexity: str = Field(..., description="Complexidade de tempo Big-O, ex: O(n log n)")
-    space_complexity: str = Field(..., description="Complexidade de espaço Big-O")
+    """Abordagem para resolver o desafio"""
+    name: str = Field(description="Nome da abordagem")
+    algorithms: List[str] = Field(description="Algoritmos utilizados")
+    description: str = Field(description="Descrição da abordagem")
+    steps: List[str] = Field(description="Passos para implementação")
+    time_complexity: str = Field(description="Complexidade temporal")
+    space_complexity: str = Field(description="Complexidade espacial")
 
 
 class AnalysisOutput(BaseModel):
-    title: str
-    summary: str
-    categories: List[str]
-    difficulty: Difficulty
-    approaches: List[Approach]
-    recommended_approach: str = Field(..., description="Nome da abordagem recomendada")
-    complexity_time: str = Field(..., description="Complexidade global recomendada (tempo)")
-    complexity_space: str = Field(..., description="Complexidade global recomendada (espaço)")
-    assumptions: Optional[str] = None
-    constraints: Optional[str] = None
-    references: Optional[str] = None
-
-
+    """Saída estruturada da análise"""
+    title: str = Field(description="Título do desafio")
+    summary: str = Field(description="Resumo da análise")
+    categories: List[str] = Field(description="Categorias do desafio")
+    difficulty: Literal["FACIL", "MEDIO", "DIFICIL"] = Field(description="Nível de dificuldade")
+    approaches: List[Approach] = Field(description="Abordagens possíveis")
+    recommended_approach: str = Field(description="Abordagem recomendada")
+    complexity_time: str = Field(description="Complexidade temporal geral")
+    complexity_space: str = Field(description="Complexidade espacial geral")
+    assumptions: str = Field(description="Suposições feitas")
+    references: str = Field(description="Referências e observações")

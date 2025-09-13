@@ -1,0 +1,104 @@
+{% extends 'desafios/base.html' %}
+
+{% block content %}
+<!-- Analyze Tab -->
+<div class="tab-content active" id="analyze">
+    <div class="analyze-form">
+        <h2><i class="fas fa-brain"></i> Analisar Desafio</h2>
+        <form id="analyzeForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Título do Desafio *</label>
+                <input type="text" id="title" name="title" required 
+                       placeholder="Ex: Two Sum, Binary Search, etc.">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descrição do Desafio *</label>
+                <textarea id="description" name="description" required rows="6"
+                          placeholder="Descreva o problema, exemplos de entrada e saída..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="objectives">Objetivos (opcional)</label>
+                    <input type="text" id="objectives" name="objectives"
+                           placeholder="Otimizações específicas, requisitos...">
+                </div>
+                <div class="form-group">
+                    <label for="constraints">Restrições (opcional)</label>
+                    <input type="text" id="constraints" name="constraints"
+                           placeholder="Limitações, regras especiais...">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-magic"></i> Analisar Desafio
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                    <i class="fas fa-eraser"></i> Limpar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Analisando desafio com IA...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="results hidden">
+        <h3><i class="fas fa-chart-line"></i> Resultado da Análise</h3>
+        <div class="result-content"></div>
+    </div>
+</div>
+
+<!-- History Tab -->
+<div class="tab-content" id="history">
+    <div class="history-content">
+        <h2><i class="fas fa-history"></i> Histórico de Análises</h2>
+        <div class="history-controls">
+            <button class="btn btn-primary" onclick="loadHistory()">
+                <i class="fas fa-refresh"></i> Atualizar
+            </button>
+        </div>
+        <div id="historyList" class="history-list">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Carregando histórico...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Tab -->
+<div class="tab-content" id="about">
+    <div class="about-content">
+        <h2><i class="fas fa-info-circle"></i> Sobre o Resolve Desafios</h2>
+        <div class="about-card">
+            <h3>🎯 O que é?</h3>
+            <p>O Resolve Desafios é uma ferramenta inteligente que analisa desafios de programação usando IA para:</p>
+            <ul>
+                <li>Classificar a dificuldade (Fácil, Médio, Difícil)</li>
+                <li>Identificar categorias de algoritmos</li>
+                <li>Sugerir abordagens de solução</li>
+                <li>Calcular complexidade de tempo e espaço</li>
+                <li>Recomendar a melhor estratégia</li>
+            </ul>
+        </div>
+
+        <div class="about-card">
+            <h3>🤖 Tecnologia</h3>
+            <p>Utiliza modelos avançados de IA (GPT-5 nano) para análise estruturada e precisa.</p>
+        </div>
+
+        <div class="about-card">
+            <h3>🏗️ Arquitetura</h3>
+            <p>Desenvolvido com Arquitetura Hexagonal, suportando múltiplas interfaces (CLI, Web API, Interface Gráfica).</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
