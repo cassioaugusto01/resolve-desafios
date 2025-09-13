@@ -1,1 +1,1 @@
-web: python -m gunicorn resolve_desafios_web.wsgi:application
+web: python manage.py runserver 0.0.0.0:$PORT
