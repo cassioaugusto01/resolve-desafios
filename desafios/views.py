@@ -24,9 +24,28 @@ def index(request):
 def analyze_challenge(request):
     """Analisar desafio via AJAX"""
     try:
+        # Log environment variables
+        import os
+        from dotenv import load_dotenv
+        load_dotenv()
+        api_key = os.getenv('OPENAI_API_KEY')
+        print(f"WEB SERVER - API Key loaded: {api_key[:20] if api_key else 'None'}...")
+        
         data = json.loads(request.body)
+        print(f"WEB SERVER - Request data received")
+        
+        # Test LLM adapter directly
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+        
+        from resolve_desafios.llm_adapter import OpenAILLMAdapter
+        llm_adapter = OpenAILLMAdapter()
+        print(f"WEB SERVER - LLM Adapter created successfully")
         
         service = AnalysisService()
+        print(f"WEB SERVER - Service created successfully")
+        
         analysis = service.analyze_challenge(
             title=data.get('title'),
             description=data.get('description'),
@@ -34,6 +53,7 @@ def analyze_challenge(request):
             constraints=data.get('constraints'),
             language=data.get('language', 'pt-BR')
         )
+        print(f"WEB SERVER - Analysis completed successfully")
         
         return JsonResponse({
             'id': analysis.id,
@@ -52,6 +72,7 @@ def analyze_challenge(request):
         
     except Exception as e:
         error_msg = str(e)
+        
         if "401" in error_msg or "AuthenticationError" in error_msg:
             return JsonResponse(
                 {'error': 'Chave da API OpenAI inválida. Verifique sua configuração.'},

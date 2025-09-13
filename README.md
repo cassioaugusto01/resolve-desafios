@@ -1,309 +1,308 @@
-# 🌐 Interface Web Django - Resolve Desafios
+# 🚀 Resolve Desafios - Manual de Execução
 
-Interface web moderna usando Django com sistema de templates, mantendo a arquitetura hexagonal.
+Interface web Django para análise de desafios de programação usando IA.
 
-## 🎯 Migração Completa
+## 📋 Pré-requisitos
 
-### ✅ **O que foi migrado:**
+- Python 3.9+
+- Chave da API OpenAI
+- Git (opcional)
 
-1. **✅ FastAPI → Django**:
-   - Removido FastAPI e uvicorn
-   - Implementado Django 4.2+ com views e templates
-   - Mantida arquitetura hexagonal
+## 🏠 Execução Local
 
-2. **✅ Sistema de Templates Django**:
-   - Template base (`base.html`) com herança
-   - Template principal (`index.html`) 
-   - Template de detalhes (`analysis_result.html`)
-   - Template de erro (`error.html`)
-
-3. **✅ Views Django**:
-   - `index()` - Página principal
-   - `analyze_challenge()` - Análise via AJAX
-   - `list_analyses()` - Listagem via AJAX
-   - `get_analysis()` - Detalhes via AJAX
-   - `analysis_detail()` - Página de detalhes
-   - `health_check()` - Health check
-
-4. **✅ URLs e Roteamento**:
-   - URLs organizadas por app
-   - Roteamento RESTful
-   - Integração com sistema de templates
-
-## 🚀 Como Usar
-
-### 1. Configuração
-
+### 1. Criar e Ativar Ambiente Virtual (Recomendado)
 ```bash
-# Instalar dependências
+# Criar ambiente virtual
+python3 -m venv venv
+
+# Ativar ambiente virtual
+# No macOS/Linux:
+source venv/bin/activate
+# No Windows:
+# venv\Scripts\activate
+
+# Verificar se está ativo (deve mostrar o caminho do venv)
+which python
+
+# Desativar ambiente virtual (quando terminar)
+deactivate
+```
+
+### 2. Instalar Dependências
+```bash
+# Com ambiente virtual ativado
 pip install -r requirements.txt
 
-# Aplicar migrações Django
-python3 manage.py migrate
+# Ou sem ambiente virtual (não recomendado)
+pip3 install -r requirements.txt
+```
 
-# Configurar chave da API (opcional - modo demo ativo)
+### 3. Configurar Variáveis de Ambiente
+```bash
+# Copiar arquivo de exemplo
 cp env.example .env
-# Edite .env com sua chave da OpenAI
+
+# Editar .env e adicionar sua chave OpenAI
+nano .env
 ```
 
-### 2. Executar Aplicação
+**Conteúdo do .env:**
+```env
+OPENAI_API_KEY=sua_chave_aqui
+OPENAI_MODEL=gpt-4o-mini
+RESOLVE_DB_PATH=./data/resolve_desafios.db
+APP_LANGUAGE=pt-BR
+```
 
+### 4. Configurar Banco de Dados
 ```bash
-# Iniciar servidor Django
-python3 manage.py runserver 0.0.0.0:8000
-
-# Ou usar o script personalizado
-python3 run_django.py
-
-# Acessar no navegador
-# http://localhost:8000
+python manage.py migrate
 ```
 
-### 3. Funcionalidades
-
-#### **📊 Página Principal (`/`)**
-- Interface completa com abas (Analisar, Histórico, Sobre)
-- Formulário de análise com validação
-- Resultados em tempo real via AJAX
-- Histórico de análises
-
-#### **🔍 Análise de Desafios (`/analyze/`)**
-- Endpoint AJAX para análise
-- Modo de demonstração ativo (sem chave API)
-- Resultados estruturados em JSON
-
-#### **📋 Histórico (`/analyses/`)**
-- Listagem de análises via AJAX
-- Filtros e paginação
-- Links para detalhes
-
-#### **📄 Detalhes (`/analysis/<id>/`)**
-- Página dedicada para cada análise
-- Template Django com dados completos
-- Navegação e impressão
-
-## 🏗️ Estrutura Django
-
-### **Projeto**
-```
-resolve_desafios_web/
-├── settings.py          # Configurações Django
-├── urls.py             # URLs principais
-├── wsgi.py             # WSGI
-└── asgi.py             # ASGI
-```
-
-### **App `desafios`**
-```
-desafios/
-├── views.py            # Views Django
-├── urls.py             # URLs do app
-├── templates/
-│   └── desafios/
-│       ├── base.html           # Template base
-│       ├── index.html          # Página principal
-│       ├── analysis_result.html # Detalhes da análise
-│       └── error.html          # Página de erro
-└── models.py           # Modelos (futuro)
-```
-
-### **Arquivos Estáticos**
-```
-static/
-├── css/
-│   └── style.css       # Estilos principais
-├── js/
-│   └── app.js         # JavaScript
-└── images/            # Imagens (futuro)
-```
-
-## 🔧 Configurações Django
-
-### **Settings.py**
-```python
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'desafios',  # App principal
-]
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        # ...
-    },
-]
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-
-LANGUAGE_CODE = 'pt-br'
-TIME_ZONE = 'America/Sao_Paulo'
-```
-
-### **URLs**
-```python
-# resolve_desafios_web/urls.py
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('desafios.urls')),
-]
-
-# desafios/urls.py
-urlpatterns = [
-    path('', views.index, name='index'),
-    path('analyze/', views.analyze_challenge, name='analyze_challenge'),
-    path('analyses/', views.list_analyses, name='list_analyses'),
-    path('analyses/<int:analysis_id>/', views.get_analysis, name='get_analysis'),
-    path('analysis/<int:analysis_id>/', views.analysis_detail, name='analysis_detail'),
-    path('health/', views.health_check, name='health_check'),
-]
-```
-
-## 🎨 Templates Django
-
-### **Herança de Templates**
-```html
-<!-- base.html -->
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <title>{% block title %}Resolve Desafios{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block extra_css %}{% endblock %}
-</head>
-<body>
-    {% block content %}{% endblock %}
-    <script src="{% static 'js/app.js' %}"></script>
-    {% block extra_js %}{% endblock %}
-</body>
-</html>
-
-<!-- index.html -->
-{% extends 'desafios/base.html' %}
-{% block content %}
-    <!-- Conteúdo da página principal -->
-{% endblock %}
-```
-
-### **Contexto de Templates**
-```python
-# views.py
-def analysis_detail(request, analysis_id):
-    analysis = container.analysis_service.get_analysis(analysis_id)
-    return render(request, 'desafios/analysis_result.html', {
-        'analysis': analysis
-    })
-```
-
-## 🔄 Integração com Arquitetura Hexagonal
-
-### **Mantida Compatibilidade**
-- **Domain Layer**: Inalterado
-- **Ports Layer**: Inalterado  
-- **Adapters Layer**: LLM, Repository, Taxonomy inalterados
-- **Container**: Removido web_adapter, mantido resto
-
-### **Novo Adapter Django**
-```python
-# desafios/views.py
-from resolve_desafios.container import container
-
-def analyze_challenge(request):
-    # Usa o mesmo analysis_service
-    result = container.analysis_service.analyze_challenge(analysis_request)
-    return JsonResponse(result)
-```
-
-## 🚀 Vantagens da Migração
-
-### **✅ Django vs FastAPI**
-- **Templates**: Sistema robusto de templates com herança
-- **Admin**: Interface administrativa automática
-- **ORM**: Sistema de modelos (futuro)
-- **Segurança**: CSRF, XSS, SQL injection protection
-- **Ecosystem**: Plugins e extensões maduras
-
-### **✅ Funcionalidades Adicionais**
-- **Páginas Dedicadas**: Cada análise tem sua página
-- **SEO Friendly**: URLs amigáveis e meta tags
-- **Responsive**: Templates otimizados para mobile
-- **Acessibilidade**: HTML semântico correto
-
-## 🔧 Desenvolvimento
-
-### **Comandos Úteis**
+### 5. Executar Aplicação
 ```bash
-# Verificar configuração
-python3 manage.py check
+# Opção 1: Script personalizado (recomendado)
+python run_django.py
+
+# Opção 2: Comando Django padrão
+python manage.py runserver 0.0.0.0:8000
+```
+
+### 6. Acessar Aplicação
+- **URL:** http://localhost:8000
+- **Health Check:** http://localhost:8000/health/
+
+## 🌐 Deploy em Produção
+
+### Heroku (Recomendado)
+
+#### 1. Preparar para Heroku
+```bash
+# Verificar se Procfile existe
+cat Procfile
+
+# Verificar configurações de produção
+cat resolve_desafios_web/settings_heroku.py
+```
+
+#### 2. Deploy via Heroku CLI
+```bash
+# Login no Heroku
+heroku login
+
+# Criar app (primeira vez)
+heroku create seu-app-nome
+
+# Configurar variáveis de ambiente
+heroku config:set OPENAI_API_KEY=sua_chave_aqui
+heroku config:set OPENAI_MODEL=gpt-4o-mini
+
+# Deploy
+git push heroku main
+
+# Executar migrações
+heroku run python manage.py migrate
+
+# Abrir aplicação
+heroku open
+```
+
+#### 3. Deploy via Script Automático
+```bash
+# Usar script de deploy
+chmod +x deploy-heroku.sh
+./deploy-heroku.sh
+```
+
+### VPS/Server Linux
+
+#### 1. Configurar Servidor
+```bash
+# Instalar dependências do sistema
+sudo apt update
+sudo apt install python3 python3-pip nginx
+
+# Clonar repositório
+git clone <seu-repo>
+cd resolve-desafios
+```
+
+#### 2. Configurar Aplicação
+```bash
+# Criar e ativar ambiente virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar dependências Python
+pip install -r requirements.txt
+
+# Configurar .env
+cp env.example .env
+nano .env
 
 # Aplicar migrações
-python3 manage.py migrate
+python manage.py migrate
+python manage.py collectstatic
+```
 
-# Criar superusuário
-python3 manage.py createsuperuser
+#### 3. Configurar Nginx
+```bash
+# Usar configuração incluída
+sudo cp nginx.conf /etc/nginx/sites-available/resolve-desafios
+sudo ln -s /etc/nginx/sites-available/resolve-desafios /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
 
-# Coletar arquivos estáticos
-python3 manage.py collectstatic
+#### 4. Executar com Gunicorn
+```bash
+# Executar em background
+gunicorn --bind 0.0.0.0:8000 resolve_desafios_web.wsgi &
+
+# Ou usar systemd service
+sudo cp resolve-desafios.service /etc/systemd/system/
+sudo systemctl enable resolve-desafios
+sudo systemctl start resolve-desafios
+```
+
+## 🔧 Comandos Úteis
+
+### Desenvolvimento
+```bash
+# Ativar ambiente virtual (se não estiver ativo)
+source venv/bin/activate
+
+# Verificar configuração
+python manage.py check
+
+# Criar superusuário (futuro)
+python manage.py createsuperuser
 
 # Shell Django
-python3 manage.py shell
+python manage.py shell
+
+# Coletar arquivos estáticos
+python manage.py collectstatic
+
+# Desativar ambiente virtual (quando terminar)
+deactivate
 ```
 
-### **Debug e Logs**
-```python
-# settings.py
-DEBUG = True
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
-    },
-}
+### Produção
+```bash
+# Verificar logs
+heroku logs --tail
+
+# Executar comando no Heroku
+heroku run python manage.py migrate
+
+# Restart aplicação
+heroku restart
 ```
 
-## 🎯 Próximos Passos
+## 📊 Funcionalidades
 
-### **Funcionalidades Futuras**
-- **Modelos Django**: Substituir SQLite direto por Django ORM
-- **Autenticação**: Sistema de usuários
-- **API REST**: Django REST Framework
-- **Cache**: Redis/Memcached
-- **Celery**: Tarefas assíncronas
-- **Docker**: Containerização
+### Interface Web
+- **Página Principal:** Interface completa com abas
+- **Análise de Desafios:** Formulário com validação
+- **Histórico:** Listagem de análises anteriores
+- **Detalhes:** Página dedicada para cada análise
 
-### **Melhorias**
-- **Testes**: Testes unitários e de integração
-- **Documentação**: API docs com Swagger
-- **Monitoramento**: Logs e métricas
-- **Deploy**: Configuração para produção
+### Endpoints API
+- `GET /` - Página principal
+- `POST /analyze/` - Analisar desafio
+- `GET /analyses/` - Listar análises
+- `GET /analysis/<id>/` - Detalhes da análise
+- `GET /health/` - Status do serviço
 
-## 🎉 Conclusão
+## 🚨 Solução de Problemas
 
-A migração para Django foi **100% bem-sucedida**:
+### Erro: "API Key not found"
+- Verifique se o arquivo `.env` existe
+- Confirme se `OPENAI_API_KEY` está definida
+- Reinicie o servidor após alterar `.env`
 
-- ✅ **Interface Funcional**: Templates Django renderizando corretamente
-- ✅ **API AJAX**: Endpoints funcionando perfeitamente
-- ✅ **Arquitetura Mantida**: Hexagonal preservada
-- ✅ **Modo Demo**: Funcionando sem chave API
-- ✅ **Responsivo**: Interface moderna e funcional
+### Erro: "Database not found"
+```bash
+# Com ambiente virtual ativado
+source venv/bin/activate
+python manage.py migrate
+```
 
-**Acesse http://localhost:8000 e aproveite a nova interface Django!** 🚀
+### Erro: "Static files not found"
+```bash
+# Com ambiente virtual ativado
+source venv/bin/activate
+python manage.py collectstatic
+```
+
+### Porta 8000 ocupada
+```bash
+# Usar porta diferente
+source venv/bin/activate
+python manage.py runserver 0.0.0.0:8080
+```
+
+### Dicas sobre Ambiente Virtual
+- **Sempre ative o venv** antes de trabalhar no projeto: `source venv/bin/activate`
+- **Verifique se está ativo**: O prompt deve mostrar `(venv)` no início
+- **Desative quando terminar**: `deactivate`
+- **Adicione `venv/` ao .gitignore** (se não estiver já)
+- **Reinstale dependências** se trocar de ambiente: `pip install -r requirements.txt`
+
+## 📝 Estrutura do Projeto
+
+```
+resolve-desafios/
+├── desafios/                 # App Django principal
+│   ├── views.py             # Views e endpoints
+│   ├── templates/           # Templates HTML
+│   └── urls.py              # URLs do app
+├── resolve_desafios_web/    # Configurações Django
+│   ├── settings.py          # Config local
+│   ├── settings_heroku.py   # Config Heroku
+│   └── urls.py              # URLs principais
+├── src/resolve_desafios/    # Lógica de negócio
+│   ├── container.py         # Injeção de dependência
+│   ├── llm_adapter.py       # Adapter OpenAI
+│   └── schemas.py           # Modelos de dados
+├── static/                  # Arquivos estáticos
+├── data/                    # Banco de dados SQLite
+├── requirements.txt         # Dependências Python
+├── Procfile                 # Config Heroku
+├── run_django.py           # Script de execução
+└── .env                     # Variáveis de ambiente
+```
+
+## ✅ Checklist de Deploy
+
+### Local
+- [ ] Python 3.9+ instalado
+- [ ] Ambiente virtual criado (`python3 -m venv venv`)
+- [ ] Ambiente virtual ativado (`source venv/bin/activate`)
+- [ ] Dependências instaladas (`pip install -r requirements.txt`)
+- [ ] Arquivo `.env` configurado
+- [ ] Migrações aplicadas (`python manage.py migrate`)
+- [ ] Servidor rodando (`python run_django.py`)
+- [ ] Aplicação acessível em http://localhost:8000
+
+### Produção (Heroku)
+- [ ] Conta Heroku criada
+- [ ] Heroku CLI instalado
+- [ ] App Heroku criado
+- [ ] Variáveis de ambiente configuradas
+- [ ] Deploy realizado (`git push heroku main`)
+- [ ] Migrações executadas (`heroku run python manage.py migrate`)
+- [ ] Aplicação acessível via URL do Heroku
+
+### Produção (VPS)
+- [ ] Servidor Linux configurado
+- [ ] Nginx instalado e configurado
+- [ ] Aplicação rodando com Gunicorn
+- [ ] Service systemd configurado (opcional)
+- [ ] Firewall configurado (porta 80/443)
+- [ ] SSL/HTTPS configurado (recomendado)
+
+---
+
+**🎯 Aplicação pronta para uso!** Acesse http://localhost:8000 para começar a analisar desafios de programação.
