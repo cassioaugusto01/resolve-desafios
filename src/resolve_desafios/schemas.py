@@ -28,4 +28,4 @@ class AnalysisOutput(BaseModel):
     complexity_time: str = Field(description="Complexidade temporal geral")
     complexity_space: str = Field(description="Complexidade espacial geral")
     assumptions: str = Field(description="Suposições feitas")
-    references: str = Field(description="Referências e observações")
+    references: str = Field(description="Referências completas incluindo: teoria do algoritmo, links da Wikipedia, livros da bibliografia clássica de algoritmos, e outras fontes relevantes para estudo aprofundado")

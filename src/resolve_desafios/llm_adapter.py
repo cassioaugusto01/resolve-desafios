@@ -87,7 +87,8 @@ class OpenAILLMAdapter:
             "- Seja específico na análise de complexidade (tempo e espaço).\n"
             "- Considere restrições e objetivos antes de recomendar.\n"
             "- Mencione suposições quando necessário.\n"
-            "- Para a solução recomendada, forneça código limpo e bem comentado, seguido de explicação detalhada do algoritmo.\n\n"
+            "- Para a solução recomendada, forneça código limpo e bem comentado, seguido de explicação detalhada do algoritmo.\n"
+            "- Para as referências, inclua sempre: teoria do algoritmo, links da Wikipedia, livros clássicos da bibliografia (como 'Introduction to Algorithms' de Cormen, 'Algorithm Design Manual' de Skiena, 'Elements of Programming Interviews' de Aziz), e outras fontes relevantes para estudo aprofundado.\n\n"
             "Taxonomia (resumo):\n"
             f"{taxonomy_summary}\n"
         )
