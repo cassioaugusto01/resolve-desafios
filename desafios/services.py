@@ -57,6 +57,7 @@ class AnalysisService:
             summary=result['summary'],
             approaches=result['approaches'],
             recommended_approach=result['recommended_approach'],
+            recommended_solution=result['recommended_solution'],
             complexity_time=result['complexity_time'],
             complexity_space=result['complexity_space'],
             assumptions=result['assumptions'],

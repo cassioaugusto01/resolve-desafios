@@ -128,6 +128,13 @@ function displayResults(result) {
         </div>
 
         <div class="result-card">
+            <h4><i class="fas fa-code"></i> Solução Recomendada</h4>
+            <div class="solution-content">
+                <pre><code>${result.recommended_solution}</code></pre>
+            </div>
+        </div>
+
+        <div class="result-card">
             <h4><i class="fas fa-cogs"></i> Abordagens Disponíveis</h4>
             <div class="approaches">
                 ${result.approaches.map(approach => `

@@ -24,6 +24,7 @@ class AnalysisOutput(BaseModel):
     difficulty: Literal["FACIL", "MEDIO", "DIFICIL"] = Field(description="Nível de dificuldade")
     approaches: List[Approach] = Field(description="Abordagens possíveis")
     recommended_approach: str = Field(description="Abordagem recomendada")
+    recommended_solution: str = Field(description="Solução recomendada com código e explicação detalhada")
     complexity_time: str = Field(description="Complexidade temporal geral")
     complexity_space: str = Field(description="Complexidade espacial geral")
     assumptions: str = Field(description="Suposições feitas")

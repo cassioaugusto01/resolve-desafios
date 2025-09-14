@@ -69,6 +69,7 @@ class OpenAILLMAdapter:
             'difficulty': result.difficulty,
             'approaches': approaches,
             'recommended_approach': result.recommended_approach,
+            'recommended_solution': result.recommended_solution,
             'complexity_time': result.complexity_time,
             'complexity_space': result.complexity_space,
             'assumptions': result.assumptions,
@@ -79,13 +80,14 @@ class OpenAILLMAdapter:
         """Build system prompt for LLM"""
         return (
             "Você é um assistente especialista em algoritmos e estruturas de dados, ajudando candidatos a entrevistas e competidores de programação.\n"
-            "Tarefas: classificar o desafio por categoria e dificuldade, listar abordagens plausíveis, avaliar complexidades em notação Big O e recomendar a melhor estratégia.\n"
+            "Tarefas: classificar o desafio por categoria e dificuldade, listar abordagens plausíveis, avaliar complexidades em notação Big O, recomendar a melhor estratégia e fornecer uma solução completa.\n"
             "Responda sempre em PT-BR, de forma concisa porém completa.\n\n"
             "Regras:\n"
             "- Use categorias e técnicas inspiradas em fontes canônicas (McDowell, Halim, Skiena, EPI, LeetCode).\n"
             "- Seja específico na análise de complexidade (tempo e espaço).\n"
             "- Considere restrições e objetivos antes de recomendar.\n"
-            "- Mencione suposições quando necessário.\n\n"
+            "- Mencione suposições quando necessário.\n"
+            "- Para a solução recomendada, forneça código limpo e bem comentado, seguido de explicação detalhada do algoritmo.\n\n"
             "Taxonomia (resumo):\n"
             f"{taxonomy_summary}\n"
         )

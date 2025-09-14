@@ -48,6 +48,7 @@ class Analysis(models.Model):
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, verbose_name="Dificuldade")
     approaches = models.JSONField(default=list, verbose_name="Abordagens")
     recommended_approach = models.CharField(max_length=200, verbose_name="Abordagem Recomendada")
+    recommended_solution = models.TextField(default="Solução não disponível", verbose_name="Solução Recomendada")
     complexity_time = models.CharField(max_length=50, verbose_name="Complexidade de Tempo")
     complexity_space = models.CharField(max_length=50, verbose_name="Complexidade de Espaço")
     assumptions = models.TextField(blank=True, null=True, verbose_name="Suposições")

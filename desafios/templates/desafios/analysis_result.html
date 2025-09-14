@@ -27,6 +27,13 @@
     </div>
 
     <div class="result-card">
+        <h3><i class="fas fa-code"></i> Solução Recomendada</h3>
+        <div class="solution-content">
+            <pre><code>{{ analysis.recommended_solution }}</code></pre>
+        </div>
+    </div>
+
+    <div class="result-card">
         <h3><i class="fas fa-cogs"></i> Abordagens Disponíveis</h3>
         <div class="approaches">
             {% for approach in analysis.approaches %}
