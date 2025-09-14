@@ -128,9 +128,14 @@ function displayResults(result) {
         </div>
 
         <div class="result-card">
-            <h4><i class="fas fa-code"></i> Solução Recomendada</h4>
+            <div class="solution-header">
+                <h4><i class="fas fa-code"></i> Solução Recomendada</h4>
+                <button class="copy-btn" onclick="copySolution('solution-code-${result.id}')" title="Copiar código">
+                    <i class="fas fa-copy"></i> Copiar
+                </button>
+            </div>
             <div class="solution-content">
-                <pre><code>${result.recommended_solution}</code></pre>
+                <pre><code id="solution-code-${result.id}">${result.recommended_solution}</code></pre>
             </div>
         </div>
 
@@ -407,6 +412,73 @@ function formatDate(dateString) {
         hour: '2-digit',
         minute: '2-digit'
     });
+}
+
+// Copy solution function
+function copySolution(elementId) {
+    const codeElement = document.getElementById(elementId);
+    if (!codeElement) {
+        showToast('Código não encontrado', 'error');
+        return;
+    }
+    
+    const text = codeElement.textContent;
+    const copyBtn = document.querySelector(`button[onclick="copySolution('${elementId}')"]`);
+    
+    // Visual feedback
+    if (copyBtn) {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+        copyBtn.classList.add('copied');
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.classList.remove('copied');
+        }, 2000);
+    }
+    
+    // Use the modern clipboard API if available
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Código copiado para a área de transferência!', 'success');
+        }).catch(err => {
+            console.error('Erro ao copiar:', err);
+            fallbackCopyTextToClipboard(text);
+        });
+    } else {
+        // Fallback for older browsers
+        fallbackCopyTextToClipboard(text);
+    }
+}
+
+// Fallback copy function for older browsers
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showToast('Código copiado para a área de transferência!', 'success');
+        } else {
+            showToast('Erro ao copiar código', 'error');
+        }
+    } catch (err) {
+        console.error('Erro ao copiar:', err);
+        showToast('Erro ao copiar código', 'error');
+    }
+    
+    document.body.removeChild(textArea);
 }
 
 // Close modal when clicking outside
